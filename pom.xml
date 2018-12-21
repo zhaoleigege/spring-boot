@@ -12,6 +12,7 @@
 
     <modules>
         <module>spring-configuration-properties</module>
+        <module>spring-rest-template</module>
     </modules>
 
     <properties>
