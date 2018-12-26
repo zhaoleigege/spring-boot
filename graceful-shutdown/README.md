@@ -148,3 +148,4 @@
    
 #### 参考资料
 * [Spring Boot 1.X和2.X优雅重启实战](https://mp.weixin.qq.com/s/RWqF7iTM3Hxrh8pGXqh5dw)
+* [spring-boot-graceful-shutdown](https://github.com/timpeeters/spring-boot-graceful-shutdown)
