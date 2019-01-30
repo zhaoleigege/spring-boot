@@ -8,6 +8,8 @@
 
 #### 参考学习项目
 
+* [入门spring boot博客](https://github.com/origoni/spring-blog)
+* [spring cloud入门](https://github.com/anilallewar/microservices-basics-spring-boot)
 * [sagan](https://github.com/RameshMF/sagan)
 * [java-blog-aggregator-boot](https://github.com/jirkapinkas/java-blog-aggregator-boot)
 * [spring-petclinic](https://github.com/spring-projects/spring-petclinic)和[spring-petclinic-data-jdbc](https://github.com/spring-petclinic/spring-petclinic-data-jdbc)
