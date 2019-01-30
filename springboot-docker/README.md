@@ -96,7 +96,7 @@
 
 2. 修改`Dockerfile`文件
 
-   ```shell
+   ```dockerfile
    FROM openjdk:8-jdk-alpine
    
    VOLUME /tmp
