@@ -80,6 +80,12 @@
 
    项目[链接](./code/gatling)
 
+4. 使用[wg/wrk](https://github.com/wg/wrk)进行压力测试
+
+   ```shell
+   wrk -t8 -c128 -d1m http://127.0.0.1:8080/persons --latency
+   ```
+
 
 
 #### 参考资料
