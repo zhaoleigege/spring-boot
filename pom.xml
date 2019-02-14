@@ -14,6 +14,8 @@
         <module>spring-configuration-properties</module>
         <module>spring-rest-template</module>
         <module>graceful-shutdown</module>
+        <module>springboot-docker</module>
+        <module>gatling</module>
     </modules>
 
     <properties>
