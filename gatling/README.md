@@ -76,3 +76,19 @@
       # 生成的测试结果在tagert/gatling目录下
       ```
 
+3. Spring boot代码和压力测试代码混合在一起
+
+   项目[链接](./code/gatling)
+
+
+
+#### 参考资料
+
+* [gatling官方文档](https://gatling.io/documentation/)
+* [Gatling简单测试SpringBoot工程](https://sanshengshui.github.io/2018/10/07/Gatling%E7%AE%80%E5%8D%95%E6%B5%8B%E8%AF%95SpringBoot%E5%B7%A5%E7%A8%8B/)
+
+
+
+#### 参考资料copy
+
+* [gatling压力测试spring boot项目](./doc/spring%20boot项目和gatling压力测试项目/index.html)
