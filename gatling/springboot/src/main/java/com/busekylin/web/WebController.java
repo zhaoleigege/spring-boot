@@ -17,7 +17,7 @@ public class WebController {
         log.info("请求获得个人信息");
         List<Person> personList = new ArrayList<>();
 
-        for (int i = 0; i < 10_000; i++) {
+        for (int i = 0; i < 10; i++) {
             personList.add(new Person(
                     "赵磊",
                     (int) (Math.random() * 50)
