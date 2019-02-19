@@ -16,6 +16,7 @@
         <module>graceful-shutdown</module>
         <module>springboot-docker</module>
         <module>gatling</module>
+        <module>springboot-test</module>
     </modules>
 
     <properties>
