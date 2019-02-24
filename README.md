@@ -1,6 +1,6 @@
 # spring-boot
 
-1. [spring boot运行方式](./spring boot启动方式.md)
+1. [spring boot运行方式](./spring%20boot启动方式.md)
 
 
 
