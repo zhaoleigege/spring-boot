@@ -1,8 +1,6 @@
 # spring-boot
 
-本项目是自己学习spring boot的新的体会。
-
-学习spring boot需要多多看看别人写的代码，最好是工程级别的项目。
+1. [spring boot运行方式](./spring boot启动方式.md)
 
 
 
