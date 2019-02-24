@@ -74,4 +74,4 @@
 #### 参考资料
 
 * [Spring Boot应用的后台运行配置](http://blog.didispace.com/spring-boot-run-backend/)
-
+* [spring boot测试、部署方式](http://www.ityouknow.com/springboot/2017/05/09/springboot-deploy.html)
