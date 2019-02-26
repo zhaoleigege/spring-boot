@@ -1,4 +1,4 @@
-package com.busekylin.springbootcluster;
+package com.busekylin.springboottest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,22 +10,17 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class SpringbootClusterApplicationTests {
-
+public class ContextTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void personTest() throws Exception {
-        this.mockMvc.perform(get("/person")).andDo(print());
-    }
-
-    @Test
-    public void personsTest() throws Exception {
-        this.mockMvc.perform(get("/persons/8")).andDo(print());
+    public void contextTest() throws Exception {
+        this.mockMvc.perform(get("/web")).andDo(print()).andExpect(status().isOk());
     }
 }

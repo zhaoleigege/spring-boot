@@ -231,7 +231,122 @@
    # 这说明我们的集群访问了redis库来存取session但是处理的后端服务器不一样
    ```
 
-   
+8. 配置redis缓存
+
+   1. 添加依赖
+
+      `pom.xml`
+
+      ```xml
+      <dependency>
+      	<groupId>org.springframework.boot</groupId>
+      	<artifactId>spring-boot-starter-cache</artifactId>
+      </dependency>
+      ```
+
+   2. 设置缓存管理器
+
+      ```java
+      @Configuration
+      @EnableCaching
+      public class RedisCacheConfig {
+      
+          /**
+           * 自定义缓存管理器
+           * @param redisConnectionFactory
+           * @return
+           */
+          @Bean
+          public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+              return RedisCacheManager.builder(redisConnectionFactory)
+                      .cacheDefaults(
+                              RedisCacheConfiguration.defaultCacheConfig()
+                                      .disableCachingNullValues()
+                                      .entryTtl(Duration.ofMinutes(30))
+                                      .serializeValuesWith(RedisSerializationContext.SerializationPair
+                                              /* 设置数据以json的方式缓存在redis中 */
+                                              .fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                      )
+                      .build();
+          }
+      }
+      ```
+
+   3. 添加缓存注解
+
+      ```java
+      @Repository
+      @Slf4j
+      @CacheConfig(cacheNames = {"person"})
+      public class DefaultPersonRepository implements PersonRepository {
+          public static final String EMPTY_KEY = "redis-key";
+      
+          @Cacheable(key = "#root.target.EMPTY_KEY")
+          @Override
+          public Person getPerson() {
+              log.info("生成person对象");
+              return generatorPerson();
+          }
+      
+          @Cacheable(key = "#size")
+          @Override
+          public List<Person> getPersonList(int size) {
+              log.info("生成personList对象");
+              return Stream.generate(this::generatorPerson).limit(size).collect(Collectors.toList());
+          }
+      
+          private Person generatorPerson() {
+              Person person = new Person();
+              person.setName(randomString(5, 10));
+              person.setAge((int) (70 * Math.random()));
+              person.setAddress(randomString(20, 30));
+      
+              return person;
+          }
+      
+          private String randomString(int min, int max) {
+              String str = "qazxswedcvfrtgbnhyujmkiolp098762143";
+      
+              StringBuilder builder = new StringBuilder();
+              for (int i = 0; i < (int) (Math.random() * max); i++) {
+                  builder.append(str.charAt((int) (Math.random() * str.length())));
+              }
+      
+      
+              return builder.toString();
+          }
+      
+      }
+      ```
+
+      **注意：`cacheNames`是一定需要的，可以在`@CacheConfig`中统一配置，或者在`@Cacheable`中指明**
+
+   4. 测试代码的编写
+
+      如果测试`controller`时需要一起验证`service`和`repository`的正确性，则需要添加`@SpringBootTest`和`@AutoConfigureMockMvc`注解
+
+      ```java
+      @RunWith(SpringRunner.class)
+      @SpringBootTest
+      @AutoConfigureMockMvc
+      public class SpringbootClusterApplicationTests {
+      
+          @Autowired
+          private MockMvc mockMvc;
+      
+          @Test
+          public void personTest() throws Exception {
+              this.mockMvc.perform(get("/person")).andDo(print());
+          }
+      
+          @Test
+          public void personsTest() throws Exception {
+              this.mockMvc.perform(get("/persons/4")).andDo(print());
+          }
+      }
+      ```
+
+      
 
 #### 参考资料
 
@@ -239,3 +354,4 @@
 * [Spring Session官方文档](https://docs.spring.io/spring-session/docs/current/reference/html5/)  **推荐**
 * [Spring Session 实现分布式会话管理 ](https://my.oschina.net/langxSpirit/blog/872029)
 * [spring cluster example](https://github.com/aetzlstorfer/spring-boot-cluster-example)
+* [spring 缓存](https://spring.io/guides/gs/caching/)  **推荐**

@@ -6,13 +6,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 public class DefaultWebRepositoryImpl implements WebRepository {
     private static final List<Web> webDatabase;
 
     static {
-        webDatabase = new ArrayList<>();
+        webDatabase = Stream.generate(() -> new Web("url", (int) (Math.random() * 1000))).limit(4).collect(Collectors.toList());
     }
 
     @Override
