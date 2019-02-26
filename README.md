@@ -7,7 +7,7 @@
 5. [spring restTemplate使用](./spring-rest-template)
 6. [docker 部署spring boot项目](./springboot-docker)
 7. [spring boot项目的测试](./springboot-test)
-8. [spring boot项目集群搭建]()
+8. [spring boot项目集群搭建](./springboot-cluster)
 
 
 
