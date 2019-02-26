@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html>
+  <!-- OriginalSrc: https://my.oschina.net/langxSpirit/blog/872029 -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Spring Session 实现分布式会话管理 - 龙首琴剑庐 - 开源中国</title>
+    
+<link rel="stylesheet" type="text/css" href="assets/1551152979-aa9cb7d010b25db188e33f04ea8ed3fc.css">
+
+<link type="text/css" rel="stylesheet" href="assets/1551152979-98310e34a5a1f5938b52123fc4242ac8.css">
+
+<link rel="stylesheet" type="text/css" href="assets/1551152979-0dd7127634c6205deec0f16257ccc105.css">
+<style>
+
+</style>
+<style>
+@media print {#ghostery-purple-box {display:none !important}}
+</style>
+<style>
+ :root .ad-wrap {display:none !important;}
+</style>
+<style>
+ :root .adsbygoogle {display:none !important;}
+</style>
+<style>
+object,embed{                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;                -o-animation-duration:.001s;-o-animation-name:playerInserted;                animation-duration:.001s;animation-name:playerInserted;}                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}
+</style>
+
+    <style class="mx-wc-style">
+      .mx-wc-main img {max-width: 100%;}
+      .mx-wc-main{
+        box-sizing: content-box;
+        background-color: rgb(255, 255, 255) !important;
+        margin: 0 auto;
+        max-width: 980px;
+        padding: 15px 15px 80px 15px;
+      }
+
+      .clipping-information{
+        text-align: left;
+        margin-top: 20px;
+        background-color: #eeeeee !important;
+        padding: 15px;
+        border-radius: 4px;
+        color: #333;
+        font-size: 14px !important;
+        line-height: 22px !important;
+      }
+      .clipping-information a {
+        color: blue !important;
+        text-decoration: underline !important;
+      }
+      .clipping-information label {
+        display: inline;
+        text-transform: none;
+      }
+      .clipping-information label > code {
+        padding: 2px 8px;
+        background-color: rgba(200, 200, 200, 0.7)!important;
+        font-size: 14px;
+      }
+
+    </style>
+  </head>
+  <body style="background-color: #464646 !important; min-height: 100%; height: auto;" id="" class="pushable">
+    <div class="mx-wc-main">
+      <DIV class="pusher  mobile-disabled-fixed-menu  " style="display: block; float: none; position: relative; top: 0; left: 0; border: 0px; width: 100%; min-width:100%; max-width: 100%; min-height: auto; max-height: 100%; height: auto; padding: 0px; margin: 0px;"><DIV id="mainScreen" style="display: block; float: none; position: relative; top: 0; left: 0; border: 0px; width: 100%; min-width:100%; max-width: 100%; min-height: auto; max-height: 100%; height: auto; padding: 0px; margin: 0px;"><DIV class="ui container" style="display: block; float: none; position: relative; top: 0; left: 0; border: 0px; width: 100%; min-width:100%; max-width: 100%; min-height: auto; max-height: 100%; height: auto; padding: 0px; margin: 0px;"><DIV class="ui internally grid blog-detail bg-wrap" style="display: block; float: none; position: relative; top: 0; left: 0; border: 0px; width: 100%; min-width:100%; max-width: 100%; min-height: auto; max-height: 100%; height: auto; padding: 0px; margin: 0px;"><DIV class="row" style="display: block; float: none; position: relative; top: 0; left: 0; border: 0px; width: 100%; min-width:100%; max-width: 100%; min-height: auto; max-height: 100%; height: auto; padding: 0px; margin: 0px;"><div class="twelve wide computer sixteen tablet mobile column body-container mx-wc-selected-elem" style="float: none; position: relative; top: 0px; left: 0px; margin: 0px; flex: unset; width: 100%; max-width: 100%; box-sizing: border-box;">
+            <div class="float-menu-content">
+                <div class="ui large breadcrumb">
+                    <a class="section" href="https://my.oschina.net/langxSpirit">龙首琴剑庐</a>
+                                                                <i class="right chevron icon divider"></i>
+                        <a class="section" href="https://my.oschina.net/langxSpirit?tab=newest&amp;catalogId=5622250">框架</a>
+                                        <i class="right chevron icon divider"></i>
+                    <div class="active section">正文</div>
+                </div>
+                <div class="article-detail">
+                                            
+                                        <h2 class="header">
+                        Spring Session 实现分布式会话管理
+                                                                            <div class="ui teal label horizontal" data-tooltip="原创">原</div>
+                                                                                            </h2>
+                    <div class="extra ui horizontal list meta-wrap">
+                        <div class="item">
+                            <a href="https://my.oschina.net/langxSpirit" class="__user">                        <div class="osc-avatar small-portrait _35x35 avatar" title="斯武丶风晴" data-user-id="155593">
+                <img src="assets/1551152979-e138ccb72efcb1778a2f77d77e7c54fc.jpeg" alt="斯武丶风晴" title="斯武丶风晴">
+            </div>
+            &nbsp;<span>斯武丶风晴</span></a>
+                            发布于 2017/04/01 10:45</div>
+                        <div class="item">字数 1389</div>
+                        <div class="item">阅读 476</div>
+                        <div class="item collect-btn " data-id="872029" data-user-id="155593" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="Spring,session,分布式,会话,Java">收藏 <span data-collect-count="" data-id="872029" data-obj-type="3">7</span></div>
+                        <div class="item"><a class="normal like article-like " data-id="872029">点赞 <span data-article-like-count="">0</span></a></div>
+                        <div class="item comment-count"><a href="#comments" class="normal"><i class="comment outline icon"></i> 评论 <span data-article-reply-count="">0</span></a></div>
+                                            </div>
+                                                                        <div class="tags">
+                                <a class="ui horizontal label" href="https://my.oschina.net/langxSpirit?q=Spring">Spring</a><a class="ui horizontal label" href="https://my.oschina.net/langxSpirit?q=session">session</a><a class="ui horizontal label" href="https://my.oschina.net/langxSpirit?q=%E5%88%86%E5%B8%83%E5%BC%8F">分布式</a><a class="ui horizontal label" href="https://my.oschina.net/langxSpirit?q=%E4%BC%9A%E8%AF%9D">会话</a><a class="ui horizontal label" href="https://my.oschina.net/langxSpirit?q=Java">Java</a>                            </div>
+                                                                <div class="content" id="articleContent">
+                                                    
+                                                <span id="OSC_h2_1"></span>
+<h2 id="h2_1">1、分布式会话管理是什么？</h2> 
+<p>在Web项目开发中，会话管理是一个很重要的部分，用于存储与用户相关的数据。通常是由符合session规范的容器来负责存储管理，也就是一旦容器关闭，重启会导致会话失效。因此打造一个高可用性的系统，必须将session管理从容器中独立出来。</p> 
+<p>&nbsp;</p> 
+<span id="OSC_h2_2"></span>
+<h2 id="h2_2">2、分布式会话管理的解决方案选用</h2> 
+<p>实现方案有很多种，下面简单介绍下：</p> 
+<p>　　第一种是使用容器扩展来实现，大家比较容易接受的是通过容器插件来实现，比如基于Tomcat的<a href="https://github.com/jcoleman/tomcat-redis-session-manager" target="_blank" rel="nofollow">tomcat-redis-session-manager</a>，基于Jetty的<a href="https://github.com/Ovea/jetty-session-redis" target="_blank" rel="nofollow">jetty-session-redis</a>等等。好处是对项目来说是透明的，无需改动代码。不过前者目前还不支持Tomcat 8，或者说不太完善。个人觉得由于过于依赖容器，一旦容器升级或者更换意味着又得从新来过。并且代码不在项目中，对开发者来说维护也是个问题。</p> 
+<p>　　第二种是自己写一套会话管理的工具类，包括Session管理和Cookie管理，在需要使用会话的时候都从自己的工具类中获取，而工具类后端存储可以放到Redis中。很显然这个方案灵活性最大，但开发需要一些额外的时间。并且系统中存在两套Session方案，很容易弄错而导致取不到数据。</p> 
+<p>　　第三种是使用框架的会话管理工具，也就是本文要说的<a href="http://docs.spring.io/spring-session/docs/current/reference/html5/" target="_blank" rel="nofollow">spring-session</a>，可以理解是替换了Servlet那一套会话管理，既不依赖容器，又不需要改动代码，并且是用了spring-data-redis那一套连接池，可以说是最完美的解决方案。当然，前提是项目要使用Spring Framework才行。</p> 
+<p>&nbsp;</p> 
+<span id="OSC_h2_3"></span>
+<h2 id="h2_3">3、为什么使用Spring Session</h2> 
+<p>Spring Session为企业级Java应用的session管理带来了革新，使得以下的功能更加容易实现：</p> 
+<ul> 
+ <li>将session所保存的状态卸载到特定的外部session存储中，如Redis或Apache Geode中，它们能够以独立于应用服务器的方式提供高质量的集群。</li> 
+ <li>当用户使用WebSocket发送请求的时候，能够保持HttpSession处于活跃状态。</li> 
+ <li>在非Web请求的处理代码中，能够访问session数据，比如在JMS消息的处理代码中。</li> 
+ <li>支持每个浏览器上使用多个session，从而能够很容易地构建更加丰富的终端用户体验。</li> 
+ <li>控制session id如何在客户端和服务器之间进行交换，这样的话就能很容易地编写Restful API，因为它可以从HTTP 头信息中获取session id，而不必再依赖于cookie。</li> 
+</ul> 
+<p>参考：<a href="http://m.blog.csdn.net/article/details?id=51483471" rel="nofollow">http://m.blog.csdn.net/article/details?id=51483471</a></p> 
+<p>&nbsp;</p> 
+<span id="OSC_h3_4"></span>
+<h3 id="h3_4">4、Spring Session分布式会话解决方案</h3> 
+<p>web.xml配置：</p> 
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">filter</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>springSessionRepositoryFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">filter-class</span>&gt;</span>org.springframework.web.filter.DelegatingFilterProxy<span class="hljs-tag">&lt;/<span class="hljs-name">filter-class</span>&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">filter</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">filter-mapping</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>springSessionRepositoryFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/*<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">filter-mapping</span>&gt;</span> </code></pre> 
+<p>编写配置，注解@EnableRedisHttpSession通过Import，引入了RedisHttpSessionConfiguration配置类。该配置类通过@Bean注解，向Spring容器中注册了一个SessionRepositoryFilter（SessionRepositoryFilter的依赖关系：SessionRepositoryFilter --&gt; SessionRepository --&gt; RedisTemplate --&gt; RedisConnectionFactory）。</p> 
+<pre><code class="hljs java">    <span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;  
+    <span class="hljs-keyword">import</span> org.springframework.data.redis.connection.RedisConnectionFactory;  
+    <span class="hljs-keyword">import</span> org.springframework.data.redis.connection.jedis.JedisConnectionFactory;  
+    <span class="hljs-keyword">import</span> org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;  
+      
+    <span class="hljs-meta">@EnableRedisHttpSession</span>(maxInactiveIntervalInSeconds = <span class="hljs-number">1800</span>)  
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RedisHttpSessionConfig</span> </span>{  
+      
+        <span class="hljs-meta">@Bean</span>  
+        <span class="hljs-function"><span class="hljs-keyword">public</span> RedisConnectionFactory <span class="hljs-title">connectionFactory</span><span class="hljs-params">()</span> </span>{  
+            JedisConnectionFactory connectionFactory = <span class="hljs-keyword">new</span> JedisConnectionFactory();  
+            connectionFactory.setPort(<span class="hljs-number">6379</span>);  
+            connectionFactory.setHostName(<span class="hljs-string">"127.0.0.1"</span>);  
+            <span class="hljs-keyword">return</span> connectionFactory;  
+        }  
+    } </code></pre> 
+<p>更复杂的Java Confg，需要加入spring 容器。</p> 
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> io.flysium.framework.session;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationEventPublisher;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;
+<span class="hljs-keyword">import</span> org.springframework.data.redis.connection.RedisConnectionFactory;
+<span class="hljs-keyword">import</span> org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+<span class="hljs-keyword">import</span> org.springframework.data.redis.core.RedisOperations;
+<span class="hljs-keyword">import</span> org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+<span class="hljs-keyword">import</span> org.springframework.data.redis.serializer.RedisSerializer;
+<span class="hljs-keyword">import</span> org.springframework.scheduling.annotation.EnableScheduling;
+<span class="hljs-keyword">import</span> org.springframework.session.data.redis.RedisFlushMode;
+<span class="hljs-keyword">import</span> org.springframework.session.data.redis.RedisOperationsSessionRepository;
+<span class="hljs-keyword">import</span> org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration;
+<span class="hljs-keyword">import</span> org.springframework.session.web.http.CookieSerializer;
+<span class="hljs-keyword">import</span> org.springframework.session.web.http.DefaultCookieSerializer;
+<span class="hljs-comment">/**
+ * Spring Session分布式会话解决方案
+ * 
+ * <span class="hljs-doctag">@author</span> SvenAugustus(蔡政滦)  e-mail: SvenAugustus@outlook.com
+ * <span class="hljs-doctag">@version</span> 1.0
+ */</span>
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@EnableScheduling</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RedisHttpSessionConfig</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RedisHttpSessionConfiguration</span> </span>{
+	<span class="hljs-comment">/**
+	 * Spring Data Redis 的连接工厂配置，必选
+	 */</span>
+	<span class="hljs-meta">@Bean</span>(name = <span class="hljs-string">"connectionFactory"</span>)
+	<span class="hljs-function"><span class="hljs-keyword">public</span> RedisConnectionFactory <span class="hljs-title">connectionFactory</span><span class="hljs-params">()</span> </span>{
+		JedisConnectionFactory connectionFactory = <span class="hljs-keyword">new</span> JedisConnectionFactory();
+		connectionFactory.setPort(<span class="hljs-number">6379</span>);
+		connectionFactory.setHostName(<span class="hljs-string">"127.0.0.1"</span>);
+		<span class="hljs-keyword">return</span> connectionFactory;
+	}
+	<span class="hljs-comment">/**
+	 * Spring Data Redis 的会话存储仓库配置，可选
+	 */</span>
+	<span class="hljs-meta">@Bean</span>(name = <span class="hljs-string">"sessionRepository"</span>)
+	<span class="hljs-function"><span class="hljs-keyword">public</span> RedisOperationsSessionRepository <span class="hljs-title">sessionRepository</span><span class="hljs-params">(
+			RedisOperations&lt;Object, Object&gt; sessionRedisTemplate,
+			ApplicationEventPublisher applicationEventPublisher)</span> </span>{
+		<span class="hljs-keyword">this</span>.setMaxInactiveIntervalInSeconds(Integer.valueOf(<span class="hljs-number">900</span>)); <span class="hljs-comment">// 单位：秒</span>
+		<span class="hljs-keyword">this</span>.setRedisNamespace(getApplicationName());
+		<span class="hljs-keyword">this</span>.setRedisFlushMode(RedisFlushMode.ON_SAVE);
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.sessionRepository(sessionRedisTemplate, applicationEventPublisher);
+	}
+	<span class="hljs-comment">/**
+	 * Spring Data Redis 的默认序列化工具，可选
+	 */</span>
+	<span class="hljs-meta">@Bean</span>(name = <span class="hljs-string">"springSessionDefaultRedisSerializer"</span>)
+	<span class="hljs-function"><span class="hljs-keyword">public</span> RedisSerializer <span class="hljs-title">springSessionDefaultRedisSerializer</span><span class="hljs-params">()</span> </span>{
+		RedisSerializer defaultSerializer = <span class="hljs-keyword">new</span> JdkSerializationRedisSerializer();
+		<span class="hljs-comment">//RedisSerializer defaultSerializer = new FastJsonStringRedisSeriaziler(</span>
+		<span class="hljs-comment">//		Charset.forName("utf-8"));</span>
+		<span class="hljs-keyword">return</span> defaultSerializer;
+	}
+	<span class="hljs-comment">/**
+	 * Session会话策略配置，可选
+	 * 
+	 * 1、Spring Session 默认支持Cookie存储当前session的id，
+	 * 		即CookieHttpSessionStrategy。
+	 * 2、Spring Session 支持RESTFul APIS，响应头回返回x-auth-token，来标识当前session的token，
+	 *     即HeaderHttpSessionStrategy。
+	 */</span>
+	<span class="hljs-comment">/*@Bean(name = "httpSessionStrategy")
+	public HttpSessionStrategy httpSessionStrategy() {
+		HeaderHttpSessionStrategy headerHttpSessionStrategy = new HeaderHttpSessionStrategy();
+		headerHttpSessionStrategy.setHeaderName("Auth-Token");
+		return headerHttpSessionStrategy;
+	}*/</span>
+	<span class="hljs-comment">/**
+	 * Session会话策略为 CookieHttpSessionStrategy 情况下配置的 Cookie序列化工具，可选
+	 */</span>
+	<span class="hljs-meta">@Bean</span>(name = <span class="hljs-string">"cookieSerializer"</span>)
+	<span class="hljs-function"><span class="hljs-keyword">public</span> CookieSerializer <span class="hljs-title">cookieSerializer</span><span class="hljs-params">()</span> </span>{
+		DefaultCookieSerializer cookieSerializer = <span class="hljs-keyword">new</span> DefaultCookieSerializer();
+		<span class="hljs-comment">// Cookie名称</span>
+		cookieSerializer.setCookieName(
+				<span class="hljs-keyword">new</span> StringBuilder(getApplicationName()).append(<span class="hljs-string">"SESSION"</span>).toString());
+		<span class="hljs-comment">// HttpOnly</span>
+		cookieSerializer.setUseHttpOnlyCookie(<span class="hljs-keyword">true</span>);
+		<span class="hljs-comment">// HTTPS定义</span>
+		<span class="hljs-comment">//cookieSerializer.setUseSecureCookie(true);</span>
+		<span class="hljs-comment">// 解决子域问题：把cookiePath的返回值设置为统一的根路径就能让session id从根域获取，</span>
+		<span class="hljs-comment">//这样同根下的所有web应用就可以轻松实现单点登录共享session</span>
+		cookieSerializer.setCookiePath(<span class="hljs-string">"/"</span>);
+		<span class="hljs-keyword">return</span> cookieSerializer;
+	}
+	<span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getApplicationName</span><span class="hljs-params">()</span> </span>{
+		<span class="hljs-keyword">return</span> <span class="hljs-string">"app"</span>;
+	}
+}</code></pre> 
+<p>&nbsp;</p> 
+<span id="OSC_h3_5"></span>
+<h3 id="h3_5">5、如何查看session数据？</h3> 
+<p>（1）Http Session数据<span style="color:rgb(255, 104, 32)">（spring:session:命名空间:sessions:xxxx）</span>在Redis中是以Hash结构存储的。</p> 
+<p><img alt="" height="99" src="assets/1551152979-37b80737d4930df2ae4fbd978065164e.png" width="666" class="zoom-in-cursor"></p> 
+<p><img alt="" height="126" src="assets/1551152979-ccbd76a4ab797cbc783e65a6ff7bd045.png" width="648" class="zoom-in-cursor"></p> 
+<p>（2）Http Session过期数据<span style="color:rgb(255, 104, 32)">（spring:session:命名空间:expirations:xxxx）</span>以Set结构保存的。</p> 
+<p>记录了所有session数据应该被删除的时间（即最新的一个session数据过期的时间）。</p> 
+<p><img alt="" height="61" src="assets/1551152979-d3f55da252968d52d947d3fb6219e8cb.png" width="658" class="zoom-in-cursor"></p> 
+<span id="OSC_h3_6"></span>
+<h3 id="h3_6">6、Spring Session原理讲解</h3> 
+<p>所有的request都会经过SessionRepositoryFilter，而&nbsp;SessionRepositoryFilter是一个优先级最高的javax.servlet.Filter，它使用了一个SessionRepositoryRequestWrapper类接管了Http Session的创建和管理工作。</p> 
+<pre><code class="hljs java">   <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SessionRepositoryRequestWrapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpServletRequestWrapper</span> </span>{  
+      
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SessionRepositoryRequestWrapper</span><span class="hljs-params">(HttpServletRequest original)</span> </span>{  
+                    <span class="hljs-keyword">super</span>(original);  
+            }  
+      
+            <span class="hljs-function"><span class="hljs-keyword">public</span> HttpSession <span class="hljs-title">getSession</span><span class="hljs-params">()</span> </span>{  
+                    <span class="hljs-keyword">return</span> getSession(<span class="hljs-keyword">true</span>);  
+            }  
+      
+            <span class="hljs-function"><span class="hljs-keyword">public</span> HttpSession <span class="hljs-title">getSession</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> createNew)</span> </span>{  
+                    <span class="hljs-comment">// create an HttpSession implementation from Spring Session  </span>
+            }  
+      
+            <span class="hljs-comment">// ... other methods delegate to the original HttpServletRequest ...  </span>
+    }  </code></pre> 
+<p>&nbsp;</p>
+                                                    
+                                            </div>
+                    <div class="ui hidden divider"></div>
+                    <p style="text-align:center;">
+                                                    © 著作权归作者所有
+                                            </p>
+                </div>
+
+  </body>
+</html>

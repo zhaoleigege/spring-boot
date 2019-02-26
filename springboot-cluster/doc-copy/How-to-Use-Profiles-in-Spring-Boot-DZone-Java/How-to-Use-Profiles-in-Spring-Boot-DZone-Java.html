@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html>
+  <!-- OriginalSrc: https://dzone.com/articles/spring-boot-profiles-1 -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>How to Use Profiles in Spring Boot - DZone Java</title>
+    
+<link rel="stylesheet" type="text/css" href="assets/1551152899-ac65b6ec1b0018257ef8acc3cdad503b.css" charset="utf-8">
+
+<link rel="stylesheet" type="text/css" href="assets/1551152899-79741d66f16f0e5ba8b9c9a5446ef75c.css" charset="utf-8">
+
+<link type="text/css" rel="stylesheet" href="assets/1551152899-85dc2e57f94d255f4236dc63a1ccfe42.css" media="screen">
+<style>
+@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}
+</style>
+<style>
+
+</style>
+<style>
+@media print {#ghostery-purple-box {display:none !important}}
+</style>
+<style>
+ :root .adsponsor , :root .sidebar-ad , :root .leaderboard-ad {display:none !important;}
+</style>
+<style>
+object,embed{                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;                -o-animation-duration:.001s;-o-animation-name:playerInserted;                animation-duration:.001s;animation-name:playerInserted;}                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}
+</style>
+<style>
+@-webkit-keyframes bounce{0%,20%,50%,80%,to{-webkit-transform:translateY(0);transform:translateY(0)}40%{-webkit-transform:translateY(-30px);transform:translateY(-30px)}60%{-webkit-transform:translateY(-15px);transform:translateY(-15px)}}@keyframes bounce{0%,20%,50%,80%,to{-webkit-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}40%{-webkit-transform:translateY(-30px);-ms-transform:translateY(-30px);transform:translateY(-30px)}60%{-webkit-transform:translateY(-15px);-ms-transform:translateY(-15px);transform:translateY(-15px)}}.om-animation-bounce{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-name:bounce;animation-name:bounce}@-webkit-keyframes bounceIn{0%{opacity:0;-webkit-transform:scale(.3);transform:scale(.3)}50%{opacity:1;-webkit-transform:scale(1.05);transform:scale(1.05)}70%{-webkit-transform:scale(.9);transform:scale(.9)}to{opacity:1;-webkit-transform:scale(1);transform:scale(1)}}@keyframes bounceIn{0%{opacity:0;-webkit-transform:scale(.3);-ms-transform:scale(.3);transform:scale(.3)}50%{opacity:1;-webkit-transform:scale(1.05);-ms-transform:scale(1.05);transform:scale(1.05)}70%{-webkit-transform:scale(.9);-ms-transform:scale(.9);transform:scale(.9)}to{opacity:1;-webkit-transform:scale(1);-ms-transform:scale(1);transform:scale(1)}}.om-animation-bounce-in{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:bounceIn;animation-name:bounceIn}@-webkit-keyframes bounceInDown{0%{opacity:0;-webkit-transform:translateY(-2000px);transform:translateY(-2000px)}60%{opacity:1;-webkit-transform:translateY(30px);transform:translateY(30px)}80%{-webkit-transform:translateY(-10px);transform:translateY(-10px)}to{-webkit-transform:translateY(0);transform:translateY(0)}}@keyframes bounceInDown{0%{opacity:0;-webkit-transform:translateY(-2000px);-ms-transform:translateY(-2000px);transform:translateY(-2000px)}60%{opacity:1;-webkit-transform:translateY(30px);-ms-transform:translateY(30px);transform:translateY(30px)}80%{-webkit-transform:translateY(-10px);-ms-transform:translateY(-10px);transform:translateY(-10px)}to{-webkit-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}}.om-animation-bounce-in-down{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:bounceInDown;animation-name:bounceInDown}@-webkit-keyframes bounceInLeft{0%{opacity:0;-webkit-transform:translateX(-2000px);transform:translateX(-2000px)}60%{opacity:1;-webkit-transform:translateX(30px);transform:translateX(30px)}80%{-webkit-transform:translateX(-10px);transform:translateX(-10px)}to{-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes bounceInLeft{0%{opacity:0;-webkit-transform:translateX(-2000px);-ms-transform:translateX(-2000px);transform:translateX(-2000px)}60%{opacity:1;-webkit-transform:translateX(30px);-ms-transform:translateX(30px);transform:translateX(30px)}80%{-webkit-transform:translateX(-10px);-ms-transform:translateX(-10px);transform:translateX(-10px)}to{-webkit-transform:translateX(0);-ms-transform:translateX(0);transform:translateX(0)}}.om-animation-bounce-in-left{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:bounceInLeft;animation-name:bounceInLeft}@-webkit-keyframes bounceInRight{0%{opacity:0;-webkit-transform:translateX(2000px);transform:translateX(2000px)}60%{opacity:1;-webkit-transform:translateX(-30px);transform:translateX(-30px)}80%{-webkit-transform:translateX(10px);transform:translateX(10px)}to{-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes bounceInRight{0%{opacity:0;-webkit-transform:translateX(2000px);-ms-transform:translateX(2000px);transform:translateX(2000px)}60%{opacity:1;-webkit-transform:translateX(-30px);-ms-transform:translateX(-30px);transform:translateX(-30px)}80%{-webkit-transform:translateX(10px);-ms-transform:translateX(10px);transform:translateX(10px)}to{-webkit-transform:translateX(0);-ms-transform:translateX(0);transform:translateX(0)}}.om-animation-bounce-in-right{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:bounceInRight;animation-name:bounceInRight}@-webkit-keyframes bounceInUp{0%{opacity:0;-webkit-transform:translateY(2000px);transform:translateY(2000px)}60%{opacity:1;-webkit-transform:translateY(-30px);transform:translateY(-30px)}80%{-webkit-transform:translateY(10px);transform:translateY(10px)}to{-webkit-transform:translateY(0);transform:translateY(0)}}@keyframes bounceInUp{0%{opacity:0;-webkit-transform:translateY(2000px);-ms-transform:translateY(2000px);transform:translateY(2000px)}60%{opacity:1;-webkit-transform:translateY(-30px);-ms-transform:translateY(-30px);transform:translateY(-30px)}80%{-webkit-transform:translateY(10px);-ms-transform:translateY(10px);transform:translateY(10px)}to{-webkit-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}}.om-animation-bounce-in-up{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:bounceInUp;animation-name:bounceInUp}@-webkit-keyframes flash{0%,50%,to{opacity:1}25%,75%{opacity:0}}@keyframes flash{0%,50%,to{opacity:1}25%,75%{opacity:0}}.om-animation-flash{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-name:flash;animation-name:flash}@-webkit-keyframes flip{0%{-webkit-transform:perspective(800px) translateZ(0) rotateY(0) scale(1);transform:perspective(800px) translateZ(0) rotateY(0) scale(1);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}40%{-webkit-transform:perspective(800px) translateZ(150px) rotateY(170deg) scale(1);transform:perspective(800px) translateZ(150px) rotateY(170deg) scale(1);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}50%{-webkit-transform:perspective(800px) translateZ(150px) rotateY(190deg) scale(1);transform:perspective(800px) translateZ(150px) rotateY(190deg) scale(1);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}80%{-webkit-transform:perspective(800px) translateZ(0) rotateY(1turn) scale(.95);transform:perspective(800px) translateZ(0) rotateY(1turn) scale(.95);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}to{-webkit-transform:perspective(800px) translateZ(0) rotateY(1turn) scale(1);transform:perspective(800px) translateZ(0) rotateY(1turn) scale(1);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}}@keyframes flip{0%{-webkit-transform:perspective(800px) translateZ(0) rotateY(0) scale(1);-ms-transform:perspective(800px) translateZ(0) rotateY(0) scale(1);transform:perspective(800px) translateZ(0) rotateY(0) scale(1);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}40%{-webkit-transform:perspective(800px) translateZ(150px) rotateY(170deg) scale(1);-ms-transform:perspective(800px) translateZ(150px) rotateY(170deg) scale(1);transform:perspective(800px) translateZ(150px) rotateY(170deg) scale(1);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}50%{-webkit-transform:perspective(800px) translateZ(150px) rotateY(190deg) scale(1);-ms-transform:perspective(800px) translateZ(150px) rotateY(190deg) scale(1);transform:perspective(800px) translateZ(150px) rotateY(190deg) scale(1);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}80%{-webkit-transform:perspective(800px) translateZ(0) rotateY(1turn) scale(.95);-ms-transform:perspective(800px) translateZ(0) rotateY(1turn) scale(.95);transform:perspective(800px) translateZ(0) rotateY(1turn) scale(.95);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}to{-webkit-transform:perspective(800px) translateZ(0) rotateY(1turn) scale(1);-ms-transform:perspective(800px) translateZ(0) rotateY(1turn) scale(1);transform:perspective(800px) translateZ(0) rotateY(1turn) scale(1);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}}.om-animation-flip{-webkit-animation-duration:1s;animation-duration:1s;-webkit-backface-visibility:visible;-ms-backface-visibility:visible;backface-visibility:visible;-webkit-animation-name:flip;animation-name:flip}@-webkit-keyframes flipInX{0%{-webkit-transform:perspective(800px) rotateX(90deg);transform:perspective(800px) rotateX(90deg);opacity:0}40%{-webkit-transform:perspective(800px) rotateX(-10deg);transform:perspective(800px) rotateX(-10deg)}70%{-webkit-transform:perspective(800px) rotateX(10deg);transform:perspective(800px) rotateX(10deg)}to{-webkit-transform:perspective(800px) rotateX(0deg);transform:perspective(800px) rotateX(0deg);opacity:1}}@keyframes flipInX{0%{-webkit-transform:perspective(800px) rotateX(90deg);-ms-transform:perspective(800px) rotateX(90deg);transform:perspective(800px) rotateX(90deg);opacity:0}40%{-webkit-transform:perspective(800px) rotateX(-10deg);-ms-transform:perspective(800px) rotateX(-10deg);transform:perspective(800px) rotateX(-10deg)}70%{-webkit-transform:perspective(800px) rotateX(10deg);-ms-transform:perspective(800px) rotateX(10deg);transform:perspective(800px) rotateX(10deg)}to{-webkit-transform:perspective(800px) rotateX(0deg);-ms-transform:perspective(800px) rotateX(0deg);transform:perspective(800px) rotateX(0deg);opacity:1}}.om-animation-flip-down{-webkit-animation-duration:1s;animation-duration:1s;-webkit-backface-visibility:visible;-ms-backface-visibility:visible;backface-visibility:visible;-webkit-animation-name:flipInX;animation-name:flipInX}@-webkit-keyframes flipInY{0%{-webkit-transform:perspective(800px) rotateY(90deg);transform:perspective(800px) rotateY(90deg);opacity:0}40%{-webkit-transform:perspective(800px) rotateY(-10deg);transform:perspective(800px) rotateY(-10deg)}70%{-webkit-transform:perspective(800px) rotateY(10deg);transform:perspective(800px) rotateY(10deg)}to{-webkit-transform:perspective(800px) rotateY(0deg);transform:perspective(800px) rotateY(0deg);opacity:1}}@keyframes flipInY{0%{-webkit-transform:perspective(800px) rotateY(90deg);-ms-transform:perspective(800px) rotateY(90deg);transform:perspective(800px) rotateY(90deg);opacity:0}40%{-webkit-transform:perspective(800px) rotateY(-10deg);-ms-transform:perspective(800px) rotateY(-10deg);transform:perspective(800px) rotateY(-10deg)}70%{-webkit-transform:perspective(800px) rotateY(10deg);-ms-transform:perspective(800px) rotateY(10deg);transform:perspective(800px) rotateY(10deg)}to{-webkit-transform:perspective(800px) rotateY(0deg);-ms-transform:perspective(800px) rotateY(0deg);transform:perspective(800px) rotateY(0deg);opacity:1}}.om-animation-flip-side{-webkit-animation-duration:1s;animation-duration:1s;-webkit-backface-visibility:visible;-ms-backface-visibility:visible;backface-visibility:visible;-webkit-animation-name:flipInY;animation-name:flipInY}@-webkit-keyframes lightSpeedIn{0%{-webkit-transform:translateX(100%) skewX(-30deg);transform:translateX(100%) skewX(-30deg);opacity:0}60%{-webkit-transform:translateX(-20%) skewX(30deg);transform:translateX(-20%) skewX(30deg);opacity:1}80%{-webkit-transform:translateX(0) skewX(-15deg);transform:translateX(0) skewX(-15deg);opacity:1}to{-webkit-transform:translateX(0) skewX(0deg);transform:translateX(0) skewX(0deg);opacity:1}}@keyframes lightSpeedIn{0%{-webkit-transform:translateX(100%) skewX(-30deg);-ms-transform:translateX(100%) skewX(-30deg);transform:translateX(100%) skewX(-30deg);opacity:0}60%{-webkit-transform:translateX(-20%) skewX(30deg);-ms-transform:translateX(-20%) skewX(30deg);transform:translateX(-20%) skewX(30deg);opacity:1}80%{-webkit-transform:translateX(0) skewX(-15deg);-ms-transform:translateX(0) skewX(-15deg);transform:translateX(0) skewX(-15deg);opacity:1}to{-webkit-transform:translateX(0) skewX(0deg);-ms-transform:translateX(0) skewX(0deg);transform:translateX(0) skewX(0deg);opacity:1}}.om-animation-light-speed{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:lightSpeedIn;animation-name:lightSpeedIn;-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}@-webkit-keyframes pulse{0%{-webkit-transform:scale(1);transform:scale(1)}50%{-webkit-transform:scale(1.1);transform:scale(1.1)}to{-webkit-transform:scale(1);transform:scale(1)}}@keyframes pulse{0%{-webkit-transform:scale(1);-ms-transform:scale(1);transform:scale(1)}50%{-webkit-transform:scale(1.1);-ms-transform:scale(1.1);transform:scale(1.1)}to{-webkit-transform:scale(1);-ms-transform:scale(1);transform:scale(1)}}.om-animation-pulse{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-name:pulse;animation-name:pulse}@-webkit-keyframes rollIn{0%{opacity:0;-webkit-transform:translateX(-100%) rotate(-120deg);transform:translateX(-100%) rotate(-120deg)}to{opacity:1;-webkit-transform:translateX(0) rotate(0deg);transform:translateX(0) rotate(0deg)}}@keyframes rollIn{0%{opacity:0;-webkit-transform:translateX(-100%) rotate(-120deg);-ms-transform:translateX(-100%) rotate(-120deg);transform:translateX(-100%) rotate(-120deg)}to{opacity:1;-webkit-transform:translateX(0) rotate(0deg);-ms-transform:translateX(0) rotate(0deg);transform:translateX(0) rotate(0deg)}}.om-animation-roll-in{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:rollIn;animation-name:rollIn}@-webkit-keyframes rotateIn{0%{-webkit-transform-origin:center center;transform-origin:center center;-webkit-transform:rotate(-200deg);transform:rotate(-200deg);opacity:0}to{-webkit-transform-origin:center center;transform-origin:center center;-webkit-transform:rotate(0);transform:rotate(0);opacity:1}}@keyframes rotateIn{0%{-webkit-transform-origin:center center;-ms-transform-origin:center center;transform-origin:center center;-webkit-transform:rotate(-200deg);-ms-transform:rotate(-200deg);transform:rotate(-200deg);opacity:0}to{-webkit-transform-origin:center center;-ms-transform-origin:center center;transform-origin:center center;-webkit-transform:rotate(0);-ms-transform:rotate(0);transform:rotate(0);opacity:1}}.om-animation-rotate{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:rotateIn;animation-name:rotateIn}@-webkit-keyframes rotateInDownLeft{0%{-webkit-transform-origin:left bottom;transform-origin:left bottom;-webkit-transform:rotate(-90deg);transform:rotate(-90deg);opacity:0}to{-webkit-transform-origin:left bottom;transform-origin:left bottom;-webkit-transform:rotate(0);transform:rotate(0);opacity:1}}@keyframes rotateInDownLeft{0%{-webkit-transform-origin:left bottom;-ms-transform-origin:left bottom;transform-origin:left bottom;-webkit-transform:rotate(-90deg);-ms-transform:rotate(-90deg);transform:rotate(-90deg);opacity:0}to{-webkit-transform-origin:left bottom;-ms-transform-origin:left bottom;transform-origin:left bottom;-webkit-transform:rotate(0);-ms-transform:rotate(0);transform:rotate(0);opacity:1}}.om-animation-rotate-down-left{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:rotateInDownLeft;animation-name:rotateInDownLeft}@-webkit-keyframes rotateInDownRight{0%{-webkit-transform-origin:right bottom;transform-origin:right bottom;-webkit-transform:rotate(90deg);transform:rotate(90deg);opacity:0}to{-webkit-transform-origin:right bottom;transform-origin:right bottom;-webkit-transform:rotate(0);transform:rotate(0);opacity:1}}@keyframes rotateInDownRight{0%{-webkit-transform-origin:right bottom;-ms-transform-origin:right bottom;transform-origin:right bottom;-webkit-transform:rotate(90deg);-ms-transform:rotate(90deg);transform:rotate(90deg);opacity:0}to{-webkit-transform-origin:right bottom;-ms-transform-origin:right bottom;transform-origin:right bottom;-webkit-transform:rotate(0);-ms-transform:rotate(0);transform:rotate(0);opacity:1}}.om-animation-rotate-down-right{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:rotateInDownRight;animation-name:rotateInDownRight}@-webkit-keyframes rotateInUpLeft{0%{-webkit-transform-origin:left bottom;transform-origin:left bottom;-webkit-transform:rotate(90deg);transform:rotate(90deg);opacity:0}to{-webkit-transform-origin:left bottom;transform-origin:left bottom;-webkit-transform:rotate(0);transform:rotate(0);opacity:1}}@keyframes rotateInUpLeft{0%{-webkit-transform-origin:left bottom;-ms-transform-origin:left bottom;transform-origin:left bottom;-webkit-transform:rotate(90deg);-ms-transform:rotate(90deg);transform:rotate(90deg);opacity:0}to{-webkit-transform-origin:left bottom;-ms-transform-origin:left bottom;transform-origin:left bottom;-webkit-transform:rotate(0);-ms-transform:rotate(0);transform:rotate(0);opacity:1}}.om-animation-rotate-up-left{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:rotateInUpLeft;animation-name:rotateInUpLeft}@-webkit-keyframes rotateInUpRight{0%{-webkit-transform-origin:right bottom;transform-origin:right bottom;-webkit-transform:rotate(-90deg);transform:rotate(-90deg);opacity:0}to{-webkit-transform-origin:right bottom;transform-origin:right bottom;-webkit-transform:rotate(0);transform:rotate(0);opacity:1}}@keyframes rotateInUpRight{0%{-webkit-transform-origin:right bottom;-ms-transform-origin:right bottom;transform-origin:right bottom;-webkit-transform:rotate(-90deg);-ms-transform:rotate(-90deg);transform:rotate(-90deg);opacity:0}to{-webkit-transform-origin:right bottom;-ms-transform-origin:right bottom;transform-origin:right bottom;-webkit-transform:rotate(0);-ms-transform:rotate(0);transform:rotate(0);opacity:1}}.om-animation-rotate-up-right{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:rotateInUpRight;animation-name:rotateInUpRight}@-webkit-keyframes rubberBand{0%{-webkit-transform:scale(1);transform:scale(1)}30%{-webkit-transform:scaleX(1.25) scaleY(.75);transform:scaleX(1.25) scaleY(.75)}40%{-webkit-transform:scaleX(.75) scaleY(1.25);transform:scaleX(.75) scaleY(1.25)}60%{-webkit-transform:scaleX(1.15) scaleY(.85);transform:scaleX(1.15) scaleY(.85)}to{-webkit-transform:scale(1);transform:scale(1)}}@keyframes rubberBand{0%{-webkit-transform:scale(1);-ms-transform:scale(1);transform:scale(1)}30%{-webkit-transform:scaleX(1.25) scaleY(.75);-ms-transform:scaleX(1.25) scaleY(.75);transform:scaleX(1.25) scaleY(.75)}40%{-webkit-transform:scaleX(.75) scaleY(1.25);-ms-transform:scaleX(.75) scaleY(1.25);transform:scaleX(.75) scaleY(1.25)}60%{-webkit-transform:scaleX(1.15) scaleY(.85);-ms-transform:scaleX(1.15) scaleY(.85);transform:scaleX(1.15) scaleY(.85)}to{-webkit-transform:scale(1);-ms-transform:scale(1);transform:scale(1)}}.om-animation-rubber-band{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-name:rubberBand;animation-name:rubberBand}@-webkit-keyframes shake{0%,to{-webkit-transform:translateX(0);transform:translateX(0)}10%,30%,50%,70%,90%{-webkit-transform:translateX(-10px);transform:translateX(-10px)}20%,40%,60%,80%{-webkit-transform:translateX(10px);transform:translateX(10px)}}@keyframes shake{0%,to{-webkit-transform:translateX(0);-ms-transform:translateX(0);transform:translateX(0)}10%,30%,50%,70%,90%{-webkit-transform:translateX(-10px);-ms-transform:translateX(-10px);transform:translateX(-10px)}20%,40%,60%,80%{-webkit-transform:translateX(10px);-ms-transform:translateX(10px);transform:translateX(10px)}}.om-animation-shake{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-name:shake;animation-name:shake}@-webkit-keyframes slideInDown{0%{opacity:0;-webkit-transform:translateY(-2000px);transform:translateY(-2000px)}to{-webkit-transform:translateY(0);transform:translateY(0)}}@keyframes slideInDown{0%{opacity:0;-webkit-transform:translateY(-2000px);-ms-transform:translateY(-2000px);transform:translateY(-2000px)}to{-webkit-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}}.om-animation-slide-in-down{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:slideInDown;animation-name:slideInDown}@-webkit-keyframes slideInLeft{0%{opacity:0;-webkit-transform:translateX(-2000px);transform:translateX(-2000px)}to{-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes slideInLeft{0%{opacity:0;-webkit-transform:translateX(-2000px);-ms-transform:translateX(-2000px);transform:translateX(-2000px)}to{-webkit-transform:translateX(0);-ms-transform:translateX(0);transform:translateX(0)}}.om-animation-slide-in-left{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:slideInLeft;animation-name:slideInLeft}@-webkit-keyframes slideInRight{0%{opacity:0;-webkit-transform:translateX(2000px);transform:translateX(2000px)}to{-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes slideInRight{0%{opacity:0;-webkit-transform:translateX(2000px);-ms-transform:translateX(2000px);transform:translateX(2000px)}to{-webkit-transform:translateX(0);-ms-transform:translateX(0);transform:translateX(0)}}.om-animation-slide-in-right{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:slideInRight;animation-name:slideInRight}@-webkit-keyframes swing{20%{-webkit-transform:rotate(15deg);transform:rotate(15deg)}40%{-webkit-transform:rotate(-10deg);transform:rotate(-10deg)}60%{-webkit-transform:rotate(5deg);transform:rotate(5deg)}80%{-webkit-transform:rotate(-5deg);transform:rotate(-5deg)}to{-webkit-transform:rotate(0deg);transform:rotate(0deg)}}@keyframes swing{20%{-webkit-transform:rotate(15deg);-ms-transform:rotate(15deg);transform:rotate(15deg)}40%{-webkit-transform:rotate(-10deg);-ms-transform:rotate(-10deg);transform:rotate(-10deg)}60%{-webkit-transform:rotate(5deg);-ms-transform:rotate(5deg);transform:rotate(5deg)}80%{-webkit-transform:rotate(-5deg);-ms-transform:rotate(-5deg);transform:rotate(-5deg)}to{-webkit-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg)}}.om-animation-swing{-webkit-animation-duration:1s;animation-duration:1s;-webkit-transform-origin:top center;-ms-transform-origin:top center;transform-origin:top center;-webkit-animation-name:swing;animation-name:swing}@-webkit-keyframes tada{0%{-webkit-transform:scale(1);transform:scale(1)}10%,20%{-webkit-transform:scale(.9) rotate(-3deg);transform:scale(.9) rotate(-3deg)}30%,50%,70%,90%{-webkit-transform:scale(1.1) rotate(3deg);transform:scale(1.1) rotate(3deg)}40%,60%,80%{-webkit-transform:scale(1.1) rotate(-3deg);transform:scale(1.1) rotate(-3deg)}to{-webkit-transform:scale(1) rotate(0);transform:scale(1) rotate(0)}}@keyframes tada{0%{-webkit-transform:scale(1);-ms-transform:scale(1);transform:scale(1)}10%,20%{-webkit-transform:scale(.9) rotate(-3deg);-ms-transform:scale(.9) rotate(-3deg);transform:scale(.9) rotate(-3deg)}30%,50%,70%,90%{-webkit-transform:scale(1.1) rotate(3deg);-ms-transform:scale(1.1) rotate(3deg);transform:scale(1.1) rotate(3deg)}40%,60%,80%{-webkit-transform:scale(1.1) rotate(-3deg);-ms-transform:scale(1.1) rotate(-3deg);transform:scale(1.1) rotate(-3deg)}to{-webkit-transform:scale(1) rotate(0);-ms-transform:scale(1) rotate(0);transform:scale(1) rotate(0)}}.om-animation-tada{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:tada;animation-name:tada}@-webkit-keyframes wobble{0%{-webkit-transform:translateX(0);transform:translateX(0)}15%{-webkit-transform:translateX(-25%) rotate(-5deg);transform:translateX(-25%) rotate(-5deg)}30%{-webkit-transform:translateX(20%) rotate(3deg);transform:translateX(20%) rotate(3deg)}45%{-webkit-transform:translateX(-15%) rotate(-3deg);transform:translateX(-15%) rotate(-3deg)}60%{-webkit-transform:translateX(10%) rotate(2deg);transform:translateX(10%) rotate(2deg)}75%{-webkit-transform:translateX(-5%) rotate(-1deg);transform:translateX(-5%) rotate(-1deg)}to{-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes wobble{0%{-webkit-transform:translateX(0);-ms-transform:translateX(0);transform:translateX(0)}15%{-webkit-transform:translateX(-25%) rotate(-5deg);-ms-transform:translateX(-25%) rotate(-5deg);transform:translateX(-25%) rotate(-5deg)}30%{-webkit-transform:translateX(20%) rotate(3deg);-ms-transform:translateX(20%) rotate(3deg);transform:translateX(20%) rotate(3deg)}45%{-webkit-transform:translateX(-15%) rotate(-3deg);-ms-transform:translateX(-15%) rotate(-3deg);transform:translateX(-15%) rotate(-3deg)}60%{-webkit-transform:translateX(10%) rotate(2deg);-ms-transform:translateX(10%) rotate(2deg);transform:translateX(10%) rotate(2deg)}75%{-webkit-transform:translateX(-5%) rotate(-1deg);-ms-transform:translateX(-5%) rotate(-1deg);transform:translateX(-5%) rotate(-1deg)}to{-webkit-transform:translateX(0);-ms-transform:translateX(0);transform:translateX(0)}}.om-animation-wobble{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:wobble;animation-name:wobble}.om-content-lock{color:transparent!important;text-shadow:rgba(0,0,0,.5) 0 0 10px;-webkit-user-select:none;-moz-user-select:none;user-select:none;pointer-events:none;filter:url("data:image/svg+xml;utf9,<svg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'><filter%20id='blur'><feGaussianBlur%20stdDeviation='10'%20/></filter></svg>#blur");-webkit-filter:blur(10px);-ms-filter:blur(10px);-o-filter:blur(10px);filter:blur(10px)}html.om-mobile-position,html.om-mobile-position body{position:fixed!important}html.om-ios-form,html.om-ios-form body{-webkit-transform:translateZ(0)!important;transform:translateZ(0)!important;-webkit-overflow-scrolling:touch!important;height:100%!important;overflow:auto!important}html.om-position-popup body{overflow:hidden!important}html.om-position-floating{transition:padding-top .3s ease!important;transition:padding-bottom .3s ease!important}html.om-reset-dimensions{height:100%!important;width:100%!important}
+</style>
+
+    <style class="mx-wc-style">
+      .mx-wc-main img {max-width: 100%;}
+      .mx-wc-main{
+        box-sizing: content-box;
+        background-color: rgb(245, 245, 246) !important;
+        margin: 0 auto;
+        max-width: 928px;
+        padding: 15px 15px 80px 15px;
+      }
+
+      .clipping-information{
+        text-align: left;
+        margin-top: 20px;
+        background-color: #eeeeee !important;
+        padding: 15px;
+        border-radius: 4px;
+        color: #333;
+        font-size: 14px !important;
+        line-height: 22px !important;
+      }
+      .clipping-information a {
+        color: blue !important;
+        text-decoration: underline !important;
+      }
+      .clipping-information label {
+        display: inline;
+        text-transform: none;
+      }
+      .clipping-information label > code {
+        padding: 2px 8px;
+        background-color: rgba(200, 200, 200, 0.7)!important;
+        font-size: 14px;
+      }
+
+    </style>
+  </head>
+  <body style="background-color: #464646 !important; min-height: 100%; height: auto;" id="" class="">
+    <div class="mx-wc-main">
+      <DIV class="container-fluid body withSlider" th-element="body" th-element-groups="[]" ng-hide="$root.isHidden('body')" data-th-element-name="body" style="display: block; float: none; position: relative; top: 0; left: 0; border: 0px; width: 100%; min-width:100%; max-width: 100%; min-height: auto; max-height: 100%; height: auto; padding: 0px; margin: 0px;"><DIV class="row mainContentRow" th-element="mainContentRow" th-element-groups="['body']" ng-hide="$root.isHidden('mainContentRow')" data-th-element-name="mainContentRow" style="display: block; float: none; position: relative; top: 0; left: 0; border: 0px; width: 100%; min-width:100%; max-width: 100%; min-height: auto; max-height: 100%; height: auto; padding: 0px; margin: 0px;"><DIV class="col-md-12 articleContent5 articleContent oUhbblYOaqbcblYOaqbcC ng-scope" th-element="articleContent5" th-element-groups="['body','mainContentRow']" ng-hide="$root.isHidden('articleContent5')" data-th-element-name="articleContent5" data-th-widget="article.content" data-widget-article-content="" header-change-trigger="" ng-controller="articleContent5" style="display: block; float: none; position: relative; top: 0; left: 0; border: 0px; width: 100%; min-width:100%; max-width: 100%; min-height: auto; max-height: 100%; height: auto; padding: 0px; margin: 0px;"><DIV class="articles-wrap ng-scope" ng-if="articles[0].id == 2424520" style="display: block; float: none; position: relative; top: 0; left: 0; border: 0px; width: 100%; min-width:100%; max-width: 100%; min-height: auto; max-height: 100%; height: auto; padding: 0px; margin: 0px;"><DIV class="article-stream widget-top-border ng-scope" ng-class="{'widget-top-border': articles[0].published }" itemscope="" itemtype="https://schema.org/TechArticle" ng-if="articles[0].id == 2424520" style="display: block; float: none; position: relative; top: 0; left: 0; border: 0px; width: 100%; min-width:100%; max-width: 100%; min-height: auto; max-height: 100%; height: auto; padding: 0px; margin: 0px;"><ARTICLE itemscope="" itemtype="http://schema.org/Blog" style="display: block; float: none; position: relative; top: 0; left: 0; border: 0px; width: 100%; min-width:100%; max-width: 100%; min-height: auto; max-height: 100%; height: auto; padding: 0px; margin: 0px;"><div class="content mx-wc-selected-elem" ng-class="{'content-full': (width <= 1024 &amp;&amp; edition)}" style="float: none; position: relative; top: 0px; left: 0px; margin: 0px; flex: unset; width: 100%; max-width: 100%; box-sizing: border-box;">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+                <div itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject">
+                    
+                    
+                    
+                    
+                </div>
+
+            <div class="header">
+                <div class="header-title">
+                    <!-- ngIf: articles[0].rawType != 'guide' --><div class="title ng-scope" ng-if="articles[0].rawType != 'guide'">
+                        <h1 class="article-title" itemprop="headline">
+                            How to Use Profiles in Spring Boot
+                        </h1>
+                    </div><!-- end ngIf: articles[0].rawType != 'guide' -->
+
+                    <!-- ngIf: articles[0].rawType == 'guide' -->
+
+                    <div class="subhead">
+                        <h3 itemprop="alternativeHeadline">
+                            Want to learn more about the features available in Spring Boot? Check out this post to learn more about how to use profiles in your Spring Boot application.
+                        </h3>
+                    </div>
+
+                    <!-- ngIf: articles[0].rawType != 'guide' && articles[0].rawType != 'whitepaper' --><div class="publish-meta ng-scope" ng-if="articles[0].rawType != 'guide' &amp;&amp; articles[0].rawType != 'whitepaper'">
+
+
+<div class="article-author-meta">
+    <a href="https://dzone.com/users/2900755/sovan107.html">
+         <img src="assets/1551152899-e3bfb359fc46eefebe0461ad742155f7.jpg" class="avatar" width="40">
+    </a> by
+
+    <div class="author-info">
+                        <span class="author-name">
+                            <a th-popup="users.profile.mini" itemprop="author" popup-data="{user: 2900755}" href="https://dzone.com/users/2900755/sovan107.html" class="ng-isolate-scope">
+                                Sovan Misra</a>
+                        </span>
+
+    </div>
+        <div class="mvb-award">
+            <i tooltip="Most Valuable Blogger" class="icon-mvb-1"></i>
+        </div>
+
+        <div class="mvb-partner">
+
+        </div>
+        <div class="zone-leader">
+
+        </div>
+
+     ·
+</div>
+                        <span class="author-date">Sep. 07, 18</span>
+                        ·
+                            <a href="https://dzone.com/java-jdk-development-tutorials-tools-news" id="portal-name"><span class="portal-name">Java
+                                Zone</span></a>
+                        ·
+                            <article-type type="'tutorial'" class="ng-isolate-scope"><span class="ng-binding">Tutorial</span></article-type>
+                    </div><!-- end ngIf: articles[0].rawType != 'guide' && articles[0].rawType != 'whitepaper' -->
+
+                    <!-- ngIf: articles[0].rawType == 'whitepaper' -->
+
+                </div>
+            </div>
+            <!-- ngIf: article.isOld -->
+
+            <div class="author-n-useraction">
+                <div class="like action">
+                    <dz-like template="like-article.html" node="articles[0]" class="ng-isolate-scope">
+    <div class="dz-like icon-thumbs-up" ng-class="{'icon-thumbs-up-alt liked': status.liked, 'icon-thumbs-up': !status.liked}" ng-click="like()"><span class="action-label"><span>Like</span><!-- ngIf: status.liked --></span>
+        <a href="https://dzone.com/articles/spring-boot-profiles-1#">
+            <span class="ng-binding">(29)</span>
+        </a>
+    </div>
+</dz-like>
+                </div>
+
+                <div class="comment action">
+                    <p ng-show="!articles[0].isLocked" slider-toggle="commentsSlider" slider-data="{parent: articles[0]}" activate-with-url-params="{showComments: articles[0].id}" class="ng-isolate-scope">
+                        <span><i class="icon-comment" tooltip-html-unsafe=""></i></span>
+                        Comment (<span class="comment-after number-of-comments ng-binding" itemprop="commentCount" ng-bind="articles[0].nComments">9</span>)
+                    </p>
+                    
+                </div>
+
+                <div class="save action">
+                    <dz-save template="link-article-save.html" node="articles[0]" class="save ng-isolate-scope">
+    <div ng-class="{'icon-star gold': status.saved, 'icon-star-empty': !status.saved}" ng-click="save()" class="save icon-star-empty"><span class="save-title">Save</span><!-- ngIf: status.saved --></div>
+</dz-save>
+            </div>
+
+            <div class="tweet action"><a ng-href="#" ng-click="shareTwitter($event, articles[0].header.title, articles[0].url)" class="title" target="_blank" href="https://dzone.com/articles/spring-boot-profiles-1#"><span><i class="icon-twitter"></i></span>
+                <span class="action-label">Tweet</span></a>
+            </div>
+
+            <div class="pull-right">
+                    <div class="article-views action ng-binding"><i class="icon-eye"></i> 41.55k
+
+                        <span class="action-label">Views</span>
+                    </div>
+
+                    <!-- ngIf: canEdit(articles[0]) || canDelete(articles[0]) -->
+            </div>
+        </div>
+                <div class="signin-prompt">
+                    <p>Join the DZone community and get the full member experience.</p>
+                    <a id="article-signin-prompt" href="https://dzone.com/articles/spring-boot-profiles-1#" ng-click="loginForm()">Join For Free</a>
+                </div>
+                <div class="arrow-down"></div>
+
+            <!-- ngIf: articles[0].rawType == 'article' && articles[0].showLogo && articles[0].partner.top.text | partnerBumperLinks:articles[0].partner.top.id --><div class="article-bumper article-bumper-top ng-binding ng-scope" ng-if="articles[0].rawType == 'article' &amp;&amp; articles[0].showLogo &amp;&amp; articles[0].partner.top.text | partnerBumperLinks:articles[0].partner.top.id" ng-bind-html="articles[0].partner.top.text | partnerBumperLinks:articles[0].partner.top.id" data-gtm-vis-first-on-screen-6133197_143="908" data-gtm-vis-total-visible-time-6133197_143="100" data-gtm-vis-has-fired-6133197_143="1"><strong><a href="https://dzone.com/go?i=202129&amp;u=https%3A%2F%2Fdzone.com%2Fasset%2Fdownload%2F157034" rel="nofollow" target="_blank">Download Microservices for Java Developers</a>: A hands-on introduction to frameworks and containers. Brought to you in partnership with <a href="https://dzone.com/go?i=202129&amp;u=https%3A%2F%2Fdzone.com%2Fasset%2Fdownload%2F157034" rel="nofollow" target="_blank">Red Hat</a>.</strong></div><!-- end ngIf: articles[0].rawType == 'article' && articles[0].showLogo && articles[0].partner.top.text | partnerBumperLinks:articles[0].partner.top.id -->
+
+            <!-- ngIf: !edition || (articles[0].rawType != 'refcard' && articles[0].rawType != 'guide') --><div ng-if="!edition || (articles[0].rawType != 'refcard' &amp;&amp; articles[0].rawType != 'guide')" class="ng-scope">
+                <div class="content-html" dz-code-container="" ng-non-bindable="" itemprop="text">
+                    <p pid="1">Spring Boot is gaining popularity like never before, and I know it will be a persistent player in the coming months. There are some features that every technology has and it is very useful in enterprise applications. In this post, we will talk about one feature in particular: profiles.</p> 
+<h2 pid="2"><strong>What Are&nbsp;Profiles?</strong></h2> 
+<p pid="3">Every enterprise application has many environments, like:</p> 
+<p pid="4"><code>Dev | Test | Stage | Prod | UAT / Pre-Prod</code></p> 
+<p pid="5">Each environment requires a setting that is specific to them. For example, in DEV, we do not need to constantly check database consistency. Whereas in TEST and STAGE, we need to. These environments host specific configurations called Profiles.</p> 
+<h2 pid="6"><strong>How Do we Maintain Profiles? </strong></h2> 
+<p pid="7">This is simple — properties files!<br>We make properties files for each environment and set the profile in the application accordingly, so it will pick the respective properties file. Don't worry, we will see how to set it up.</p> 
+<p pid="8">This article will demonstrate how to setup Profiles for your Spring Boot application.</p> 
+<p pid="9">Let's start with setting up a Spring Boot application from the&nbsp;<a href="https://start.spring.io/" target="_blank" rel="nofollow">Spring Starter</a>.</p> 
+<p pid="10"><img alt="Screen Shot 2018-09-02 at 12.43.23 AM.png" class="fr-fin fr-dib" height="656" src="assets/1551152899-b9cd95076ccfc2e6562771203ce54592.png" width="1435"></p> 
+<p pid="11">Next, we need to import the project into STS as a Maven Project. Below is the project structure:<br><img alt="Screen Shot 2018-09-02 at 12.48.17 AM.png" class="fr-fin fr-dib" height="503" src="assets/1551152899-f3f8dfb236a66d2d226ea20924f981bf.png" width="463"></p> 
+<p pid="24">In this demo application, we will see how to configure different databases at runtime based on the specific environment by their respective profiles.</p> 
+<p pid="25">As the DB connection is better to be kept in a property file, it remains external to an application and can be changed. We will do so here. But, Spring Boot — by default — provides just one property file (&nbsp;<code>application.properties</code>). So, how will we segregate the properties based on the environment?</p> 
+<p pid="26">The solution would be to create more property files and add the "profile" name as the suffix and configure Spring Boot to pick the appropriate properties based on the profile.</p> 
+<p pid="27">Then, we need to create three &nbsp;<code>application.properties</code>:</p> 
+<ol> 
+ <li>&nbsp;<code>application-dev.properties</code><span id="_tmp_pre_3">&nbsp;</span><br></li> 
+ <li>&nbsp;<code>application-test.properties</code><span id="_tmp_pre_4">&nbsp;</span><br></li> 
+ <li>&nbsp;<code>application-prod.properties</code><span id="_tmp_pre_5">&nbsp;</span><br></li> 
+</ol> 
+<p pid="28">Of course, the&nbsp;<code>application.properties</code><span id="_tmp_pre_6">&nbsp;</span>will remain as a master properties file, but <em>if we override any key in the profile-specific file, the latter will gain precedence. </em></p> 
+<p pid="29">I will now define DB configuration properties for in respective properties file and add code in&nbsp;<code>DBConfiguration.class</code><span id="_tmp_pre_7">&nbsp;</span>to pick the appropriate settings.</p> 
+<p pid="30">Here is the base &nbsp;<code>application.properties</code>:</p> 
+<p pid="31"><img alt="Screen Shot 2018-09-02 at 8.33.25 AM.png" class="fr-fin fr-dib" height="224" src="assets/1551152899-2721c0a9540bc09dabc11a20d78e18fa.png" width="1440"></p> 
+<p pid="32">In DEV, we will use an in-memory database:</p> 
+<p pid="33"><img alt="Screen Shot 2018-09-02 at 8.33.58 AM.png" class="fr-fin fr-dib" height="240" src="assets/1551152899-148ed005f9a90dd85095e5da054f89b9.png" width="1439"></p> 
+<p pid="34">In TEST, we will be using a lower instance of RDS MySQL database, and in PROD, we will use a higher instance of the MySQL database. (It's the price that matters...)</p> 
+<p pid="35"><img alt="Screen Shot 2018-09-02 at 8.43.08 AM" class="fr-fin fr-dib" height="320" src="assets/1551152899-fb9e5e3062d20aed76ca023d4a5fbb41.png" width="1440"><img alt="Screen Shot 2018-09-02 at 8.43.23 AM" class="fr-fin fr-dib" height="302" src="assets/1551152899-328be741268b545b3d310055b9b68657.png" width="1438"></p> 
+<p pid="36">Now, we are done with properties files. Let's configure in the&nbsp;<code>DBConfiguration.class</code><span id="_tmp_pre_9">&nbsp;</span>to pick the correct one.</p> 
+<p pid="37"><img alt="Screen Shot 2018-09-02 at 8.48.41 AM.png" class="fr-fin fr-dib" height="821" src="assets/1551152899-09a5305858190d91cc42a4105d00d82c.png" width="1440"></p> 
+<p pid="38">We have used the&nbsp;<code>@Profile("Dev")</code>&nbsp;&nbsp; to let the system know that this is the&nbsp;<code>BEAN</code>&nbsp; that should be picked up when we set the application profile to DEV. The other two beans will not be created at all.</p> 
+<p pid="39">One last setting is how to let the system know that this is DEV, TEST, or PROD. But, how do we do this?</p> 
+<p pid="40">We will use the&nbsp;<code>application.properties</code><span id="_tmp_pre_12">&nbsp;</span>to use the key below:</p> 
+<div class="CodeMirror cm-s-default"><div class="CodeMirror-scroll"><div class="CodeMirror-sizer" style="margin-left: 29px; margin-bottom: 0px; border-right-width: 30px; min-width: 319px; min-height: 26px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: none;"><div class="CodeMirror-code"><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -29px; width: 29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 20px;" data-line-number="1"></div></div><pre><span style="padding-right: 29px;"><span class="cm-variable">spring</span>.<span class="cm-variable">profiles</span>.<span class="cm-variable">active</span><span class="cm-operator">=</span><span class="cm-variable">dev</span></span></pre></div></div></div></div></div></div><div class="CodeMirror-gutters" style="height: 26px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 28px;"></div></div></div></div> 
+<p pid="60"><br></p> 
+<p pid="42">From here, Spring Boot will know which profile to pick. Let's run the application now!</p> 
+<p pid="43">With the profile in DEV mode, and it should pick H2 DB.</p> 
+<p pid="44"><img alt="Screen Shot 2018-09-02 at 9.05.26 AM.png" class="fr-fin fr-dib" height="900" src="assets/1551152899-1f4d06ad1d47ca57f766f924090b784d.png" title="Screen Shot 2018-09-02 at 9.05.26 AM.png" width="1440"></p> 
+<p pid="45"><img alt="Screen Shot 2018-09-02 at 9.07.25 AM" class="fr-fin fr-dib" height="149" src="assets/1551152899-c4b0786dc9f1dab39db262bd31126285.png" width="1440"></p> 
+<p pid="46">Now, change the profile to PROD. We will see MySQL with High Config for DB. This should be picked, and the message will be overridden with the PROD message.</p> 
+<p pid="47"><img alt="Screen Shot 2018-09-02 at 9.09.29 AM" class="fr-fin fr-dib" height="900" src="assets/1551152899-ca9602865509011a705f9e4cf86e55ac.png" title="Screen Shot 2018-09-02 at 9.09.29 AM" width="1440"><img alt="Screen Shot 2018-09-02 at 9.09.44 AM" class="fr-fin fr-dib" height="100" src="assets/1551152899-3af5ffcec1dbb5f6119b0f6afcdc9fdc.png" width="1439"></p> 
+<p pid="48">That's it! We just have to change it once at the&nbsp;<code>application.properties</code><span id="_tmp_pre_14">&nbsp;</span>to let Spring Boot know which environment the code is deployed in, and it will do the magic with the setting.</p> 
+<p pid="49">Please visit this&nbsp;<a href="https://bitbucket.org/sovanm/profiles/src/master/" target="_blank" rel="nofollow">repository</a>&nbsp;to access the code to learn more!</p>
+                </div>
+            </div><!-- end ngIf: !edition || (articles[0].rawType != 'refcard' && articles[0].rawType != 'guide') -->
+
+            <!-- ngIf: (articles[0].rawType == 'refcard' || articles[0].rawType == 'guide') && edition -->
+
+
+            <!-- ngIf: articles[0].showLogo && articles[0].rawType == 'article' && articles[0].partner.bottom.text | partnerBumperLinks:articles[0].partner.bottom.id --><div class="article-bumper article-bumper-bottom ng-binding ng-scope" ng-if="articles[0].showLogo &amp;&amp; articles[0].rawType == 'article' &amp;&amp; articles[0].partner.bottom.text | partnerBumperLinks:articles[0].partner.bottom.id" ng-bind-html="articles[0].partner.bottom.text | partnerBumperLinks:articles[0].partner.bottom.id" data-gtm-vis-first-on-screen-6133197_143="12955" data-gtm-vis-total-visible-time-6133197_143="100" data-gtm-vis-has-fired-6133197_143="1"><strong><a href="https://dzone.com/go?i=219225&amp;u=https%3A%2F%2Fdzone.com%2Fasset%2Fdownload%2F166031" rel="nofollow" target="_blank">Download&nbsp;Building Reactive Microservices in Java</a>: Asynchronous and Event-Based Application Design. Brought to you in partnership with <a href="https://dzone.com/go?i=219225&amp;u=https%3A%2F%2Fdzone.com%2Fasset%2Fdownload%2F166031" rel="nofollow" target="_blank">Red Hat</a>.&nbsp;</strong></div><!-- end ngIf: articles[0].showLogo && articles[0].rawType == 'article' && articles[0].partner.bottom.text | partnerBumperLinks:articles[0].partner.bottom.id -->
+
+            <!-- ngIf: articles[0].rawType != 'article' -->
+
+                    <!-- ngIf: !edition --><div ng-if="!edition" class="related ng-scope">
+                        <h3>Like This Article? Read More From DZone</h3>
+                        <div class="row">
+                            <div class="relateddiv col-xs-6 col-md-6">
+                                <a href="https://dzone.com/articles/spring-boot-migration-from-15-to-205-release?fromrel=true">
+                                    <img class="relatedimg col-xs-3 col-md-3" src="assets/1551152899-7d6b5f72babf64dc0c5b1a2d82667f38.jpg" width="60"></a>
+                                <a href="https://dzone.com/articles/spring-boot-migration-from-15-to-205-release?fromrel=true" class="col-xs-9 col-md-9">Spring Boot Migration From 1.5 to 2.0.5</a>
+                            </div>
+
+                            <div class="relateddiv col-xs-6 col-md-6">
+                                <a href="https://dzone.com/articles/spring-boot-profiles-a-strategic-way-to-configure?fromrel=true">
+                                    <img class="relatedimg col-xs-3 col-md-3" src="assets/1551152899-5af34793ad26d43a5c0e6e7c6de375d1.jpg" width="60"></a>
+                                <a href="https://dzone.com/articles/spring-boot-profiles-a-strategic-way-to-configure?fromrel=true" class="col-xs-9 col-md-9">
+                                Spring Boot Profiles: A Strategic Way to Configure Applications</a>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="relateddiv col-xs-6 col-md-6">
+                                <a href="https://dzone.com/articles/spring-tips-metrics-collection-in-spring-boot-2-wi?fromrel=true">
+                                    <img class="relatedimg col-xs-3 col-md-3" src="assets/1551152899-f7a02089e0e2c2e892a03a7f640e28c7.jpg"></a>
+                                <a href="https://dzone.com/articles/spring-tips-metrics-collection-in-spring-boot-2-wi?fromrel=true" class="col-xs-9 col-md-9">Spring Tips: Metrics Collection in Spring Boot 2 With Micrometer</a>
+                            </div>
+
+                            <div class="relateddiv col-xs-6 col-md-6">
+                                <a href="https://dzone.com/refcardz/java-containerization?fromrel=true">
+                                    <img class="relatedimg col-xs-3 col-md-3" src="assets/1551152899-30a716cb46c834515dac0e3bc5a6b3d7.jpg" width="60"></a>
+                                <a href="https://dzone.com/refcardz/java-containerization?fromrel=true" class="col-xs-9 col-md-9">
+                                    <p class="relatedres">Free DZone Refcard</p>
+                                Java Containerization</a>
+                            </div>
+                        </div>
+                    </div><!-- end ngIf: !edition -->
+
+
+            <!-- ngIf: articles[0].rawType != 'article' && articles[0].pdf -->
+
+
+            <div class="article-topics">
+                <div class="topic-label">Topics:</div>
+                <div class="topics">
+                        <span class="topics-tag">java
+                            ,</span><span class="topics-tag">spring boot 2.0
+                            ,</span><span class="topics-tag">profile
+                            ,</span><span class="topics-tag">environment
+                            ,</span><span class="topics-tag">deployment</span>
+                </div>
+            </div>
+            <div class="author-n-useraction">
+                <div class="like action">
+                    <dz-like template="like-article.html" node="articles[0]" class="ng-isolate-scope">
+    <div class="dz-like icon-thumbs-up" ng-class="{'icon-thumbs-up-alt liked': status.liked, 'icon-thumbs-up': !status.liked}" ng-click="like()"><span class="action-label"><span>Like</span><!-- ngIf: status.liked --></span>
+        <a href="https://dzone.com/articles/spring-boot-profiles-1#">
+            <span class="ng-binding">(29)</span>
+        </a>
+    </div>
+</dz-like>
+                </div>
+
+                <div class="comment action">
+                    <p ng-show="!articles[0].isLocked" slider-toggle="commentsSlider" slider-data="{parent: articles[0]}" activate-with-url-params="{showComments: articles[0].id}" class="ng-isolate-scope">
+                        <span><i class="icon-comment" tooltip-html-unsafe=""></i></span>
+                        Comment (<span class="comment-after number-of-comments ng-binding" itemprop="commentCount" ng-bind="articles[0].nComments">9</span>)
+                    </p>
+                    
+                </div>
+
+                <div class="save action">
+                    <dz-save template="link-article-save.html" node="articles[0]" class="save ng-isolate-scope">
+    <div ng-class="{'icon-star gold': status.saved, 'icon-star-empty': !status.saved}" ng-click="save()" class="save icon-star-empty"><span class="save-title">Save</span><!-- ngIf: status.saved --></div>
+</dz-save>
+            </div>
+
+            <div class="tweet action"><a ng-href="#" ng-click="shareTwitter($event, articles[0].header.title, articles[0].url)" class="title" target="_blank" href="https://dzone.com/articles/spring-boot-profiles-1#"><span><i class="icon-twitter"></i></span>
+                <span class="action-label">Tweet</span></a>
+            </div>
+
+            <div class="pull-right">
+                    <div class="article-views action ng-binding"><i class="icon-eye"></i> 41.55k
+
+                        <span class="action-label">Views</span></div>
+
+                    <!-- ngIf: !edition && (canEdit(articles[0]) || canDelete(articles[0])) -->
+            </div>
+        </div>
+                <div class="attribution">
+                    <p>Published at DZone with permission
+                        of 
+                        <span itemprop="author">Sovan Misra
+                        <!-- ngIf: articles[0].authors[0].isMVB --><span ng-if="articles[0].authors[0].isMVB" class="ng-scope">, DZone MVB</span><!-- end ngIf: articles[0].authors[0].isMVB -->. <!-- ngIf: articles[0].source --><span ng-if="articles[0].source" class="ng-scope"><a href="https://learnspringswithme.wordpress.com/2018/09/02/spring-boot-profiles/" target="_blank">See the original article here.<i class="icon-link-ext-alt"></i></a></span><!-- end ngIf: articles[0].source --></span></p>
+                    <p>Opinions expressed by DZone contributors are their own.</p>
+                </div>
+        <load-article node="article || articles[0]" class="ng-isolate-scope"></load-article>
+    </div></ARTICLE></DIV></DIV></DIV></DIV></DIV>
+      
+       
+  </body>
+</html>

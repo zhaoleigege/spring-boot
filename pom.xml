@@ -17,6 +17,7 @@
         <module>springboot-docker</module>
         <module>gatling</module>
         <module>springboot-test</module>
+        <module>springboot-cluster</module>
     </modules>
 
     <properties>
